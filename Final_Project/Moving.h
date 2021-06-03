@@ -24,7 +24,7 @@ class Moving{
 
         char getSymbol() const;
         
-        // virtual void move() = 0;  //  will it be void?
+        virtual vector<int> moveCharacter() = 0;  // every child must move
 };
 
 #endif

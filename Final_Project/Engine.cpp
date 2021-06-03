@@ -40,7 +40,7 @@ void Engine::placeEveryone(){
                     }
                 }
             }
-        }while(place_map[x][y] == '*' || flag != 0);  // if in the given coordinates is a wall or another symbol produxe new random numbers 
+        }while(place_map[x][y] == '*' || flag != 0);  // if in the given coordinates is a wall or another symbol produce new coordinates 
 
         taken.push_back(x);  // insert every taken coordinate in the vector
         taken.push_back(y);
@@ -51,12 +51,12 @@ void Engine::placeEveryone(){
             potter->setY(y);
             addch(potter->getSymbol());
         } else if(i == 1){  // at the second loop we put Gnome in the game
-            potter->setX(x);
-            potter->setY(y);
+            gnome->setX(x);
+            gnome->setY(y);
             addch(gnome->getSymbol());
         } else if(i == 2){  // at the first loop we put Traal in the game
-            potter->setX(x);
-            potter->setY(y);
+            traal->setX(x);
+            traal->setY(y);
             addch(traal->getSymbol());
         }  
         
@@ -68,12 +68,63 @@ void Engine::placeEveryone(){
 }
 
 void Engine::getNewCoordinates(){
+    int counter = 0;
+    // int amount = stones_cords.size()/2;   // ** FOR STONES AND PARCHMENTS
     vector<int> new_cords;
-    new_cords = potter->moveCharacter();
 
-    // if(new_cords[i] == ){
-        
+    vector<string> check_map = map->getMap();
+
+    do{  // first stage, check if in the new coordinates is a wall or a monster
+        new_cords = potter->moveCharacter();
+    }while(check_map[new_cords[0]][new_cords[1]] == '*' || (new_cords[0] == traal->getX() && new_cords[1] == traal->getY()) || (new_cords[0] == gnome->getX() && new_cords[1] == gnome->getY())); 
+    
+    // while (counter != amount){  // ** second stage, check if there are stones or parchments in the new coordinates 
+    //     if(stones_cords[counter] == new_cords[0] && stones_cords[counter+1] == new_cords[1]){
+
+    //     } 
+    //     counter++;
     // }
+    // if(parchment_cords[0] == new_cords[0] && parchment_cords[0] == new_cords[1]){
+
+    // }
+
+    // printw("HELLO!!");
+    move(potter->getX(), potter->getY());  // ** first i check then i change (Engine function checks and changes)
+	addch (' ');
+    move(new_cords[0], new_cords[1]);
+	addch (potter->getSymbol());
+    
+    potter->setX(new_cords[0]);  // setting the new valid coordinates to Potter 
+    potter->setY(new_cords[1]);
+
+
+    do{  // third stage, check if in the new coordinates is a wall
+        new_cords = gnome->moveCharacter();
+    }while(check_map[new_cords[0]][new_cords[1]] == '*');
+
+    // what will happen if at the new coordinates is a stone/parchment or the Potter?
+
+    move(gnome->getX(), gnome->getY());  // ** first i check then i change (Engine function checks and changes)
+	addch (' ');
+    move(new_cords[0], new_cords[1]);
+	addch (gnome->getSymbol());
+
+    gnome->setX(new_cords[0]);  // setting the new valid coordinates to Potter 
+    gnome->setY(new_cords[1]);
+
+
+    do{  // third stage, check if in the new coordinates is a wall
+        new_cords = traal->moveCharacter();
+    }while(check_map[new_cords[0]][new_cords[1]] == '*');
+
+    move(traal->getX(), traal->getY());  // ** first i check then i change (Engine function checks and changes)
+	addch (' ');
+    move(new_cords[0], new_cords[1]);
+	addch (traal->getSymbol());
+
+    traal->setX(new_cords[0]);  // setting the new valid coordinates to Potter 
+    traal->setY(new_cords[1]);
+
 }
 
 

@@ -12,6 +12,7 @@ class Gnome: public Moving{
     public:
         Gnome(int, int, char);
         void map();
+        vector<int> moveCharacter();
 };
 
 #endif

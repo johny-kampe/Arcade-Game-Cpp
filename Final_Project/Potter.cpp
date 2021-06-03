@@ -11,28 +11,26 @@ vector<int> Potter::moveCharacter(){
     // int curx, cury;
 	int ch;
 	vector<int> cords;
-	// curx = cury = 10;
-	// initscr ();
-	// printw ("Hello world\n");  
-	// refresh ();  // clears the terminal
-	// getch ();  // gets the char
-	// clear ();  
-	do { // waits for a character	
-		ch = getch ();
-		// move(x, y);  ** first i check then i change (Engine function checks and changes)
-		// addch (' ');
-		switch (ch){
-			case KEY_UP : x--; break;
-			case KEY_DOWN : x++; break;
-			case KEY_LEFT: y--; break;
-			case KEY_RIGHT: y++; break;
-		}
-		move(x, y);
-		addch ('C');
-	}while (ch != KEY_UP || ch != KEY_DOWN || ch != KEY_LEFT || ch != KEY_RIGHT || ch != 32);  // Esc ASCII
+	  
+	int new_x = 0;
+	int new_y = 0;
 
-	cords.push_back(x);
-	cords.push_back(y);
+	do { 
+		new_x = x;
+		new_y = y;
+
+		ch = getch ();
+		switch (ch){
+			case KEY_UP : new_x--; break;
+			case KEY_DOWN : new_x++; break;
+			case KEY_LEFT: new_y--; break;
+			case KEY_RIGHT: new_y++; break;
+		}
+	}while (ch != KEY_UP && ch != KEY_DOWN && ch != KEY_LEFT && ch != KEY_RIGHT && ch!= 32);
+
+	// printw("HELLO@");
+	cords.push_back(new_x);
+	cords.push_back(new_y);
 
 	return cords;
 

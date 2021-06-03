@@ -22,17 +22,18 @@ int main(int argc, char ** argv){
 	keypad (stdscr,TRUE);  // special buttons (Esc, Space, Pg Up etc.)
 
 	for(int i = 0; i < map->getRows(); i++){
-		for (int j = 0; j < map->getColumns(); j++){
-			move(i, j);
-			addch(mapp[i][j]);
+			for (int j = 0; j < map->getColumns(); j++){
+				move(i, j);
+				addch(mapp[i][j]);
+			}
 		}
-	}
 	engine.placeEveryone();
 	refresh();
-	engine.getNewCoordinates();
 
 	int ch;
-	do{
+	do {
+		engine.getNewCoordinates();
+			
 		ch = getch();
 	} while (ch != 27);
 	

@@ -12,6 +12,7 @@ class Traal: public Moving{
     public:
         Traal(int, int, char);
         void move();
+        vector<int> moveCharacter();
 };
 
 #endif

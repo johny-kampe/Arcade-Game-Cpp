@@ -15,7 +15,9 @@ class Engine{
         Gnome * gnome;
         Traal * traal;
         vector<char> stones;
+        // vector<int> stones_cords;
         char parchment;
+        // vector<int> parchment_cords;
         // i have to store the coordinates of the stones  
     public:
         Engine(Map *, Potter *, Gnome *, Traal *);
