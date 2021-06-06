@@ -31,11 +31,21 @@ int main(int argc, char ** argv){
 	refresh();
 
 	int ch;
+	int amount_of_stones;
+	int flag_parchment = 0;  // this flag is needed so the following if will never run again
+	int continue_game = 0;
+
 	do {
+		// continue_game = engine.getNewCoordinates();
 		engine.getNewCoordinates();
-			
-		ch = getch();
-	} while (ch != 27);
+		amount_of_stones = engine.getAmountOfStones();
+
+		if (amount_of_stones == 0 && flag_parchment == 0){  // if every stone has been collected then place parchment
+			engine.placeParchment();
+			flag_parchment++;
+		}
+		
+	} while (continue_game != 1);
 	
 
 	endwin();

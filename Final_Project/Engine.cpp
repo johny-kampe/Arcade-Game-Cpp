@@ -11,8 +11,9 @@ Engine::Engine(Map * mapp, Potter * pot, Gnome * gn, Traal * tr){
     gnome = gn;
     traal = tr;
 
+    stone = '$';
     for (int i = 0; i < 10; i++){
-        stones.push_back('$');
+        stones.push_back(stone);
     }
     
     parchment = '@';
@@ -27,15 +28,15 @@ void Engine::placeEveryone(){
 
     vector<string> place_map = map->getMap();
 
-    for(int i = 0; i < 3; i++){  // adding potter, gnome and traal in map, now we have to insert the pergamines
+    for(int i = 0; i < 13; i++){  // adding potter, gnome and traal in map, now we have to insert the pergamines
         do{
             flag = 0; // initialize the flag
             x = rand() % 18 + 1;  // random row
             y = rand() % 58 + 1;  // ramndom column
 
             if(taken.size() > 0){  // if there isn't any character in the game, move on
-                for (int j = 0; j < taken.size(); j++){  // check if those coordinates are already taken 
-                    if(taken[j] == x || taken[j] == y){  // if they are change the flag
+                for (int j = 0; j < taken.size()/2; j+=2){  // check if those coordinates are already taken 
+                    if(taken[j] == x && taken[j+1] == y){  // if they are change the flag
                         flag++;
                     }
                 }
@@ -54,14 +55,15 @@ void Engine::placeEveryone(){
             gnome->setX(x);
             gnome->setY(y);
             addch(gnome->getSymbol());
-        } else if(i == 2){  // at the first loop we put Traal in the game
+        } else if(i == 2){  // at the third loop we put Traal in the game
             traal->setX(x);
             traal->setY(y);
             addch(traal->getSymbol());
-        }  
-        
-        // here i will put the stones too
-    
+        } else if(i >= 3){  // at the forth loop and after we put the stones in the game
+            stones_cords.push_back(x);
+            stones_cords.push_back(y);
+            addch(stone);
+        }
     }
 
     refresh();
@@ -76,8 +78,14 @@ void Engine::getNewCoordinates(){
 
     do{  // first stage, check if in the new coordinates is a wall or a monster
         new_cords = potter->moveCharacter();
-    }while(check_map[new_cords[0]][new_cords[1]] == '*' || (new_cords[0] == traal->getX() && new_cords[1] == traal->getY()) || (new_cords[0] == gnome->getX() && new_cords[1] == gnome->getY())); 
+        printw("FINAL");
+    }while(/*new_cords[0] != -1 || */check_map[new_cords[0]][new_cords[1]] == '*' || (new_cords[0] == traal->getX() && new_cords[1] == traal->getY()) || (new_cords[0] == gnome->getX() && new_cords[1] == gnome->getY())); 
+        printw("OUTSIDE");
+    // if (new_cords[0] == -1){
+    //     return 1;
+    // }
     
+
     // while (counter != amount){  // ** second stage, check if there are stones or parchments in the new coordinates 
     //     if(stones_cords[counter] == new_cords[0] && stones_cords[counter+1] == new_cords[1]){
 
@@ -125,6 +133,14 @@ void Engine::getNewCoordinates(){
     traal->setX(new_cords[0]);  // setting the new valid coordinates to Potter 
     traal->setY(new_cords[1]);
 
+    // return 0;
+
 }
 
+void Engine::placeParchment(){
+    printw("Placing parchment!");
+}
 
+int Engine::getAmountOfStones() const{
+    return stones.size();
+}

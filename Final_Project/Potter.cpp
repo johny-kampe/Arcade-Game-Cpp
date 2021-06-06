@@ -21,14 +21,17 @@ vector<int> Potter::moveCharacter(){
 
 		ch = getch ();
 		switch (ch){
+			case 32: break;
+			//case 27: cords[0] = -1; break;
 			case KEY_UP : new_x--; break;
 			case KEY_DOWN : new_x++; break;
 			case KEY_LEFT: new_y--; break;
 			case KEY_RIGHT: new_y++; break;
 		}
-	}while (ch != KEY_UP && ch != KEY_DOWN && ch != KEY_LEFT && ch != KEY_RIGHT && ch!= 32);
+		printw("HELLO!");
+	}while (ch != KEY_UP && ch != KEY_DOWN && ch != KEY_LEFT && ch != KEY_RIGHT && ch != 32 && ch != 27);
 
-	// printw("HELLO@");
+	printw("HELLO@");
 	cords.push_back(new_x);
 	cords.push_back(new_y);
 

@@ -11,7 +11,7 @@ private:
     int rows;
     int columns;
     string file_path;
-    vector<string> the_map; 
+    vector<string> the_map;
 public:
     Map(char *);
     vector<string> getMap() const;
