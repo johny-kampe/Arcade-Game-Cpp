@@ -1,6 +1,6 @@
 #include "Moving.h"
 
-Moving::Moving(int x_cord, int y_cord, char any_symbol): x(x_cord), y(y_cord), symbol(any_symbol){
+Moving::Moving(int x_cord, int y_cord, char any_symbol, Map * map): x(x_cord), y(y_cord), symbol(any_symbol), moving_map(map){
     
 }
 

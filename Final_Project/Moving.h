@@ -12,9 +12,9 @@ class Moving{
         int x;
         int y;
         char symbol;
-        Map * map;
+        Map * moving_map;
     public:
-        Moving(int, int, char);
+        Moving(int, int, char, Map *);
 
         int getX() const;
         int getY() const;

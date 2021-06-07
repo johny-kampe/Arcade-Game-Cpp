@@ -10,9 +10,9 @@ using namespace std;
 
 int main(int argc, char ** argv){
     Map * map = new Map(argv[1]);
-	Potter * potter = new Potter(0, 0, 'P');
-	Gnome * gnome = new Gnome(0, 0, 'G');
-	Traal * traal = new Traal(0, 0, 'T');
+	Potter * potter = new Potter(0, 0, 'P', map);
+	Gnome * gnome = new Gnome(0, 0, 'G', map);
+	Traal * traal = new Traal(0, 0, 'T', map);
 
     vector<string> mapp = map->getMap();
 
@@ -36,21 +36,25 @@ int main(int argc, char ** argv){
 	int continue_game = 0;
 
 	do {
-		// continue_game = engine.getNewCoordinates();
-		engine.getNewCoordinates();
+		continue_game = engine.getNewCoordinates();
+		// engine.getNewCoordinates();
 		amount_of_stones = engine.getAmountOfStones();
 
-		if (amount_of_stones == 0 && flag_parchment == 0){  // if every stone has been collected then place parchment
+		if (amount_of_stones == 0 && flag_parchment == 0){  // if every stone has been collected then place a parchment
 			engine.placeParchment();
 			flag_parchment++;
 		}
-		
 	} while (continue_game != 1);
-	
-
 	endwin();
 
-    
+	cout << "I was in main!!. Ending the program!" << endl;
+
+	delete map;
+	delete potter;
+	delete gnome;
+	delete traal;
+
+	cout << "All good!" << endl;
 
     return 0;
 }

@@ -7,7 +7,7 @@ using namespace std;
 
 class Potter: public Moving{
     public:
-        Potter(int, int, char);
+        Potter(int, int, char, Map *);
         vector<int> moveCharacter();  // moves the character and it returns the new coordinates
 };
 

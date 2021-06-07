@@ -6,11 +6,9 @@
 
 using namespace std;
 
-class Gnome: public Moving{
-    private:
-        // Map * map;        
+class Gnome: public Moving{       
     public:
-        Gnome(int, int, char);
+        Gnome(int, int, char, Map *);
         void map();
         vector<int> moveCharacter();
 };

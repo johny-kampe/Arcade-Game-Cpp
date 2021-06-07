@@ -22,7 +22,7 @@ class Engine{
     public:
         Engine(Map *, Potter *, Gnome *, Traal *);
         void placeEveryone();
-        void getNewCoordinates();  // checks if the new coordinates are valid
+        bool getNewCoordinates();  // checks if the new coordinates are valid
         void placeParchment();  // when stones.size() == 0 then we'll call this function to place the parchment
 
         int getAmountOfStones() const;

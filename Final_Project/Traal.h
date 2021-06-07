@@ -7,10 +7,8 @@
 using namespace std;
 
 class Traal: public Moving{
-    private:
-        // Map * map;
     public:
-        Traal(int, int, char);
+        Traal(int, int, char, Map *);
         void move();
         vector<int> moveCharacter();
 };

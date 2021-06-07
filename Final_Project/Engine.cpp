@@ -5,12 +5,7 @@
 #include <time.h>
 #include <ncurses.h>
 
-Engine::Engine(Map * mapp, Potter * pot, Gnome * gn, Traal * tr){
-    map = mapp;
-    potter = pot;
-    gnome = gn;
-    traal = tr;
-
+Engine::Engine(Map * mapp, Potter * pot, Gnome * gn, Traal * tr): map(mapp), potter(pot), gnome(gn), traal(tr){
     stone = '$';
     for (int i = 0; i < 10; i++){
         stones.push_back(stone);
@@ -69,8 +64,9 @@ void Engine::placeEveryone(){
     refresh();
 }
 
-void Engine::getNewCoordinates(){
+bool Engine::getNewCoordinates(){
     int counter = 0;
+    int flag = 0;
     // int amount = stones_cords.size()/2;   // ** FOR STONES AND PARCHMENTS
     vector<int> new_cords;
 
@@ -78,13 +74,16 @@ void Engine::getNewCoordinates(){
 
     do{  // first stage, check if in the new coordinates is a wall or a monster
         new_cords = potter->moveCharacter();
-        printw("FINAL");
-    }while(/*new_cords[0] != -1 || */check_map[new_cords[0]][new_cords[1]] == '*' || (new_cords[0] == traal->getX() && new_cords[1] == traal->getY()) || (new_cords[0] == gnome->getX() && new_cords[1] == gnome->getY())); 
-        printw("OUTSIDE");
-    // if (new_cords[0] == -1){
-    //     return 1;
-    // }
-    
+
+        if(new_cords[0] == -1 && new_cords[1] == -1){  // if the user pressed the 'End Game' combination values then change the flag and break the loop
+            flag++;
+            break;
+        }
+    }while(check_map[new_cords[0]][new_cords[1]] == '*' || (new_cords[0] == traal->getX() && new_cords[1] == traal->getY()) || (new_cords[0] == gnome->getX() && new_cords[1] == gnome->getY())); 
+
+    if(flag == 1){  // then return 1 to end the game
+        return 1;
+    }
 
     // while (counter != amount){  // ** second stage, check if there are stones or parchments in the new coordinates 
     //     if(stones_cords[counter] == new_cords[0] && stones_cords[counter+1] == new_cords[1]){
@@ -133,7 +132,7 @@ void Engine::getNewCoordinates(){
     traal->setX(new_cords[0]);  // setting the new valid coordinates to Potter 
     traal->setY(new_cords[1]);
 
-    // return 0;
+    return 0;
 
 }
 
