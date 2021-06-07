@@ -19,8 +19,10 @@ int main(int argc, char ** argv){
 	Engine engine(map, potter, gnome, traal);
 
     initscr();
+	noecho();
 	keypad (stdscr,TRUE);  // special buttons (Esc, Space, Pg Up etc.)
-
+	curs_set(0);
+	
 	for(int i = 0; i < map->getRows(); i++){
 			for (int j = 0; j < map->getColumns(); j++){
 				move(i, j);
@@ -37,6 +39,7 @@ int main(int argc, char ** argv){
 
 	do {
 		continue_game = engine.getNewCoordinates();
+		refresh();
 		// engine.getNewCoordinates();
 		amount_of_stones = engine.getAmountOfStones();
 
