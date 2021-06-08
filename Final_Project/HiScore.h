@@ -8,9 +8,11 @@ using namespace std;
 
 class HiScore{
     private:
-        
+        char names[5][11];
+        int scores[5];
+        string file;
     public:
-
+        HiScore(char *);
 };
 
 #endif

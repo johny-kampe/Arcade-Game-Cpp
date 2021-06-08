@@ -4,8 +4,8 @@
 #include <fstream>
 
 Map::Map(char * map){
-	string file_path = "/home/kampe/Desktop/Cpp/Final_Project/";  // the path of my project
-	file_path += map;  // conctenating map's file name in the path
+	// string file_path = "/home/kampe/Desktop/Cpp/Final_Project/";  // the path of my project
+	string file_path = map;  // conctenating map's file name in the path
 
 	ifstream read_file; 
 	string line;
@@ -20,8 +20,8 @@ Map::Map(char * map){
 			if(count == 0){  // find the size of one line (getting the amount of columns)
 				columns = line.size();
 			}
-
 			line+= '\n';  // maybe for debbuging reasons, 
+			
 			the_map.push_back(line);
 			count++;
 		}

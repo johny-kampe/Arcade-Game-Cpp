@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "Engine.h"
+#include "HiScore.h"
 
 #include <iostream>
 #include <stdlib.h>
@@ -13,42 +14,43 @@ int main(int argc, char ** argv){
 	Potter * potter = new Potter(0, 0, 'P', map);
 	Gnome * gnome = new Gnome(0, 0, 'G', map);
 	Traal * traal = new Traal(0, 0, 'T', map);
+	HiScore * hiscore = new HiScore(argv[2]);
 
     vector<string> mapp = map->getMap();
 
 	Engine engine(map, potter, gnome, traal);
 
-    initscr();
-	noecho();
-	keypad (stdscr,TRUE);  // special buttons (Esc, Space, Pg Up etc.)
-	curs_set(0);
+    // initscr();
+	// noecho();
+	// keypad (stdscr,TRUE);  // special buttons (Esc, Space, Pg Up etc.)
+	// curs_set(0);
 	
-	for(int i = 0; i < map->getRows(); i++){
-			for (int j = 0; j < map->getColumns(); j++){
-				move(i, j);
-				addch(mapp[i][j]);
-			}
-		}
-	engine.placeEveryone();
-	refresh();
+	// for(int i = 0; i < map->getRows(); i++){
+	// 		for (int j = 0; j < map->getColumns(); j++){
+	// 			move(i, j);
+	// 			addch(mapp[i][j]);
+	// 		}
+	// 	}
+	// engine.placeEveryone();
+	// refresh();
 
-	int ch;
-	int amount_of_stones;
-	int flag_parchment = 0;  // this flag is needed so the following if will never run again
-	int continue_game = 0;
+	// int ch;
+	// int amount_of_stones;
+	// int flag_parchment = 0;  // this flag is needed so the following if will never run again
+	// int continue_game = 0;
 
-	do {
-		continue_game = engine.getNewCoordinates();
-		refresh();
-		// engine.getNewCoordinates();
-		amount_of_stones = engine.getAmountOfStones();
+	// do {
+	// 	continue_game = engine.getNewCoordinates();
+	// 	refresh();
+	// 	// engine.getNewCoordinates();
+	// 	amount_of_stones = engine.getAmountOfStones();
 
-		if (amount_of_stones == 0 && flag_parchment == 0){  // if every stone has been collected then place a parchment
-			engine.placeParchment();
-			flag_parchment++;
-		}
-	} while (continue_game != 1);
-	endwin();
+	// 	if (amount_of_stones == 0 && flag_parchment == 0){  // if every stone has been collected then place a parchment
+	// 		engine.placeParchment();
+	// 		flag_parchment++;
+	// 	}
+	// } while (continue_game != 1);
+	// endwin();
 
 	cout << "I was in main!!. Ending the program!" << endl;
 
