@@ -10,7 +10,6 @@ class Map{
 private:
     int rows;
     int columns;
-    string file_path;
     vector<string> the_map;
 public:
     Map(char *);

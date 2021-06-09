@@ -24,6 +24,8 @@ vector<int> Potter::moveCharacter(){
 			case 27: cords.push_back(-1); cords.push_back(-1); break;    // if the user pressed the Escape button then push back the 'End Game' combination values
 			case 32: break;
 		}
+		move(0, 64);
+		printw("%d %d, %d %d", new_x, new_y, x, y);
 	}while (ch != KEY_UP && ch != KEY_DOWN && ch != KEY_LEFT && ch != KEY_RIGHT && ch != 32 && ch != 27);
 
 	if (ch == 27){  // return the 'End Game' combination values

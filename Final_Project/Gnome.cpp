@@ -1,6 +1,6 @@
 #include "Gnome.h"
 
-Gnome::Gnome(int x_cord, int y_cord, char potter_symbol, Map * map): Moving(x_cord, y_cord, potter_symbol, map){  // general constructor of class Potter 
+Gnome::Gnome(int x_cord, int y_cord, char gnome_symbol, Map * map): Moving(x_cord, y_cord, gnome_symbol, map){  // general constructor of class Potter 
 
 }
 
@@ -17,8 +17,8 @@ vector<int> Gnome::moveCharacter(){
     switch (direction){
         case 0 : new_x--; break;
         case 1 : new_x++; break;
-        case 2: new_y--; break;
-        case 3: new_y++; break;
+        case 2 : new_y--; break;
+        case 3 : new_y++; break;
     }
 
     cords.push_back(new_x);

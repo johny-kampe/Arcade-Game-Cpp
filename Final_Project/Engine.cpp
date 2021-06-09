@@ -5,7 +5,7 @@
 #include <time.h>
 #include <ncurses.h>
 
-Engine::Engine(Map * mapp, Potter * pot, Gnome * gn, Traal * tr): map(mapp), potter(pot), gnome(gn), traal(tr){
+Engine::Engine(Map * mapp, Potter * pot, Gnome * gn, Traal * tr): map(mapp), potter(pot), gnome(gn), traal(tr), player_score(0){
     stone = '$';
     for (int i = 0; i < 10; i++){
         stones.push_back(stone);
@@ -30,7 +30,7 @@ void Engine::placeEveryone(){
             y = rand() % 58 + 1;  // ramndom column
 
             if(taken.size() > 0){  // if there isn't any character in the game, move on
-                for (int j = 0; j < taken.size()/2; j+=2){  // check if those coordinates are already taken 
+                for (int j = 0; j < taken.size(); j+=2){  // check if those coordinates are already taken 
                     if(taken[j] == x && taken[j+1] == y){  // if they are change the flag
                         flag++;
                     }
@@ -45,29 +45,39 @@ void Engine::placeEveryone(){
         if (i == 0){  // at the first loop we put Potter in the game
             potter->setX(x);
             potter->setY(y);
-            addch(potter->getSymbol());
+            // addch(potter->getSymbol());
+            attron(COLOR_PAIR(1));
+            printw("%c", potter->getSymbol());
+            attroff(COLOR_PAIR(1));
         } else if(i == 1){  // at the second loop we put Gnome in the game
             gnome->setX(x);
             gnome->setY(y);
-            addch(gnome->getSymbol());
+            // addch(gnome->getSymbol());
+            attron(COLOR_PAIR(2));
+            printw("%c", gnome->getSymbol());
+            attroff(COLOR_PAIR(2));
         } else if(i == 2){  // at the third loop we put Traal in the game
             traal->setX(x);
             traal->setY(y);
-            addch(traal->getSymbol());
+            // addch(traal->getSymbol());
+            attron(COLOR_PAIR(2));
+            printw("%c", traal->getSymbol());
+            attroff(COLOR_PAIR(2));
         } else if(i >= 3){  // at the forth loop and after we put the stones in the game
             stones_cords.push_back(x);
             stones_cords.push_back(y);
-            addch(stone);
+            // addch(stone);
+            attron(COLOR_PAIR(3));
+            printw("%c", stone);
+            attroff(COLOR_PAIR(3));
         }
     }
-
     refresh();
 }
 
 bool Engine::getNewCoordinates(){
     int counter = 0;
     int flag = 0;
-    // int amount = stones_cords.size()/2;   // ** FOR STONES AND PARCHMENTS
     vector<int> new_cords;
 
     vector<string> check_map = map->getMap();
@@ -81,26 +91,31 @@ bool Engine::getNewCoordinates(){
         }
     }while(check_map[new_cords[0]][new_cords[1]] == '*' || (new_cords[0] == traal->getX() && new_cords[1] == traal->getY()) || (new_cords[0] == gnome->getX() && new_cords[1] == gnome->getY())); 
 
+    // (new_cords[0] == traal->getX() && new_cords[1] == traal->getY()) || (new_cords[0] == gnome->getX() && new_cords[1] == gnome->getY()) 
+    // change this from do - while and make it an if
+
     if(flag == 1){  // then return 1 to end the game
         return 1;
     }
 
-    // while (counter != amount){  // ** second stage, check if there are stones or parchments in the new coordinates 
-    //     if(stones_cords[counter] == new_cords[0] && stones_cords[counter+1] == new_cords[1]){
-
-    //     } 
-    //     counter++;
-    // }
-    // if(parchment_cords[0] == new_cords[0] && parchment_cords[0] == new_cords[1]){
-
-    // }
-
-    // printw("HELLO!!");
     move(potter->getX(), potter->getY());  // ** first i check then i change (Engine function checks and changes)
 	addch (' ');
+    for (int j = 0; j < stones_cords.size(); j+=2){  // check if in the new coordinates is a stone
+        if(stones_cords[j] == new_cords[0] && stones_cords[j+1] == new_cords[1]){  // if there is a stone then erase it and add 10 points 
+            stones_cords.erase(stones_cords.begin()+j);
+            stones_cords.erase(stones_cords.begin()+j);
+            this->setPlayerScore(10);
+            break;
+        }
+    }
+    move(map->getRows()+1, 0);  // move below the map and print the current score
+    printw("Score: %d", this->getPlayerScore());
     move(new_cords[0], new_cords[1]);
-	addch (potter->getSymbol());
-    
+	// addch (potter->getSymbol());  
+    attron(COLOR_PAIR(1));
+    printw("%c", potter->getSymbol());
+    attroff(COLOR_PAIR(1));
+
     potter->setX(new_cords[0]);  // setting the new valid coordinates to Potter 
     potter->setY(new_cords[1]);
 
@@ -112,11 +127,31 @@ bool Engine::getNewCoordinates(){
     // what will happen if at the new coordinates is a stone/parchment or the Potter?
 
     move(gnome->getX(), gnome->getY());  // ** first i check then i change (Engine function checks and changes)
-	addch (' ');
-    move(new_cords[0], new_cords[1]);
-	addch (gnome->getSymbol());
+    
+    if(gnome_stepped_on_a_stone.size() != 0){
+        attron(COLOR_PAIR(3));
+        printw("%c", stone);
+        attroff(COLOR_PAIR(3));
+        gnome_stepped_on_a_stone.erase(gnome_stepped_on_a_stone.begin());
+        gnome_stepped_on_a_stone.erase(gnome_stepped_on_a_stone.begin());
+    } else {
+	    addch (' ');
+    }
 
-    gnome->setX(new_cords[0]);  // setting the new valid coordinates to Potter 
+    move(new_cords[0], new_cords[1]);
+    for (int j = 0; j < stones_cords.size(); j+=2){  // check if in the new coordinates is a stone
+        if(stones_cords[j] == new_cords[0] && stones_cords[j+1] == new_cords[1]){  // if there is a stone then erase it and add 10 points 
+            gnome_stepped_on_a_stone.push_back(new_cords[0]);
+            gnome_stepped_on_a_stone.push_back(new_cords[1]);            
+            break;
+        }
+    }
+	// addch (gnome->getSymbol());
+    attron(COLOR_PAIR(2));
+    printw("%c", gnome->getSymbol());
+    attroff(COLOR_PAIR(2));
+
+    gnome->setX(new_cords[0]);  // setting the new valid coordinates to Gnome
     gnome->setY(new_cords[1]);
 
 
@@ -124,16 +159,34 @@ bool Engine::getNewCoordinates(){
         new_cords = traal->moveCharacter();
     }while(check_map[new_cords[0]][new_cords[1]] == '*');
 
-    move(traal->getX(), traal->getY());  // ** first i check then i change (Engine function checks and changes)
-	addch (' ');
-    move(new_cords[0], new_cords[1]);
-	addch (traal->getSymbol());
+    move(traal->getX(), traal->getY());
+    if(traal_stepped_on_a_stone.size() != 0){
+        attron(COLOR_PAIR(3));
+        printw("%c", stone);
+        attroff(COLOR_PAIR(3));
+        traal_stepped_on_a_stone.erase(traal_stepped_on_a_stone.begin());
+        traal_stepped_on_a_stone.erase(traal_stepped_on_a_stone.begin());
+    } else {
+	    addch (' ');
+    }
 
-    traal->setX(new_cords[0]);  // setting the new valid coordinates to Potter 
+    move(new_cords[0], new_cords[1]);
+    for (int j = 0; j < stones_cords.size(); j+=2){  // check if in the new coordinates is a stone
+        if(stones_cords[j] == new_cords[0] && stones_cords[j+1] == new_cords[1]){  // if there is a stone then erase it and add 10 points 
+            traal_stepped_on_a_stone.push_back(new_cords[0]);
+            traal_stepped_on_a_stone.push_back(new_cords[1]);            
+            break;
+        }
+    }
+	// addch (traal->getSymbol());
+    attron(COLOR_PAIR(2));
+    printw("%c", traal->getSymbol());
+    attroff(COLOR_PAIR(2));
+
+    traal->setX(new_cords[0]);  // setting the new valid coordinates to Traal 
     traal->setY(new_cords[1]);
 
     return 0;
-
 }
 
 void Engine::placeParchment(){
@@ -142,4 +195,12 @@ void Engine::placeParchment(){
 
 int Engine::getAmountOfStones() const{
     return stones.size();
+}
+
+int Engine::getPlayerScore() const{
+    return player_score;
+}
+
+void Engine::setPlayerScore(int score){
+    player_score += score;
 }

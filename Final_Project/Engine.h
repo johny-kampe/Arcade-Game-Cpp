@@ -19,6 +19,10 @@ class Engine{
         vector<int> stones_cords;  // keeping every stone's coordinates
         char parchment;  // parchment's symbol
         // vector<int> parchment_cords;  // keeping the parchment's coordinates
+        string player_name;
+        int player_score;
+        vector<int> gnome_stepped_on_a_stone;
+        vector<int> traal_stepped_on_a_stone;
     public:
         Engine(Map *, Potter *, Gnome *, Traal *);
         void placeEveryone();
@@ -26,6 +30,8 @@ class Engine{
         void placeParchment();  // when stones.size() == 0 then we'll call this function to place the parchment
 
         int getAmountOfStones() const;
+        int getPlayerScore() const;
+        void setPlayerScore(int);
 };
 
 #endif

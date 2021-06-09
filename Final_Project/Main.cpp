@@ -20,37 +20,50 @@ int main(int argc, char ** argv){
 
 	Engine engine(map, potter, gnome, traal);
 
-    // initscr();
-	// noecho();
-	// keypad (stdscr,TRUE);  // special buttons (Esc, Space, Pg Up etc.)
-	// curs_set(0);
-	
-	// for(int i = 0; i < map->getRows(); i++){
-	// 		for (int j = 0; j < map->getColumns(); j++){
-	// 			move(i, j);
-	// 			addch(mapp[i][j]);
-	// 		}
-	// 	}
-	// engine.placeEveryone();
-	// refresh();
+    initscr(); 
+	noecho();
+	keypad (stdscr,TRUE);  // special buttons (Esc, Space, Pg Up etc.)
+	curs_set(0);
 
-	// int ch;
-	// int amount_of_stones;
-	// int flag_parchment = 0;  // this flag is needed so the following if will never run again
-	// int continue_game = 0;
+	start_color();  // setting colors
+	init_pair(1, COLOR_BLACK, COLOR_GREEN);
+    init_pair(2, COLOR_BLACK, COLOR_RED);
+    init_pair(3, COLOR_BLACK, COLOR_YELLOW);
+	init_pair(4, COLOR_CYAN, COLOR_CYAN);
+	init_color(COLOR_CYAN, 200, 100, 50);  // i tried to change the cyan color and make it like brown to remind us a wall
 
-	// do {
-	// 	continue_game = engine.getNewCoordinates();
-	// 	refresh();
-	// 	// engine.getNewCoordinates();
-	// 	amount_of_stones = engine.getAmountOfStones();
+	for(int i = 0; i < map->getRows(); i++){
+		for (int j = 0; j < map->getColumns(); j++){
+			move(i, j);
+			if(mapp[i][j] == '*'){
+				attron(COLOR_PAIR(4));
+				printw("%c", '*');
+				attroff(COLOR_PAIR(4));
+			} else {
+				addch(mapp[i][j]);
+			}
+		}
+	}
+	engine.placeEveryone();
+	refresh();
 
-	// 	if (amount_of_stones == 0 && flag_parchment == 0){  // if every stone has been collected then place a parchment
-	// 		engine.placeParchment();
-	// 		flag_parchment++;
-	// 	}
-	// } while (continue_game != 1);
-	// endwin();
+	int ch;
+	int amount_of_stones;
+	int flag_parchment = 0;  // this flag is needed so the following if will never run again
+	int continue_game = 0;
+
+	do {
+		continue_game = engine.getNewCoordinates();
+		refresh();
+		amount_of_stones = engine.getAmountOfStones();
+
+		if (amount_of_stones == 0 && flag_parchment == 0){  // if every stone has been collected then place a parchment
+			engine.placeParchment();
+			flag_parchment++;
+		}
+		
+	} while (continue_game != 1);
+	endwin();
 
 	cout << "I was in main!!. Ending the program!" << endl;
 
@@ -62,52 +75,4 @@ int main(int argc, char ** argv){
 	cout << "All good!" << endl;
 
     return 0;
-}
-
-// cout << "The main club! " << mapp.size() << endl;
-    // for(int i = 0; i < mapp.size(); i++){
-    //     cout << mapp[i];
-    // }
-
-// int curx, cury;
-	// int ch;
-	// curx = cury = 10;
-	// initscr ();
-	// printw ("Hello world\n");  
-	// refresh ();  // clears the terminal
-	// getch ();  // gets the char
-	// clear ();  
-	// keypad (stdscr,TRUE);  // special buttons (Esc, Space, Pg Up etc.)
-	// move(cury, curx);  // 
-	// addch ('C');
-	// do { // waits for a character	
-	// 	ch = getch ();
-	// 	move(cury, curx);
-	// 	addch (' ');
-	// 	switch (ch){
-	// 		case KEY_UP : cury--; break;
-	// 		case KEY_DOWN : cury++; break;
-	// 		case KEY_LEFT: curx--; break;
-	// 		case KEY_RIGHT: curx++; break;
-	// 	}
-	// 	move(cury, curx);
-	// 	addch ('C');
-	// }while (ch != 27);  // Esc ASCII
-	// endwin ();
-
-/*
-
-#include <stdlib.h>     // srand, rand 
-#include <time.h>       // time 
-
-placeToMap(){
-    srand (time(NULL));  // initialize random seed:
-
-    //  v3 = rand() % 30 + 1985;   // v3 in the range 1985-2014
-    rand() % 1077 + 61;
-}
-
-// what ncurses does with x and y? how i will write potter in map?
-// will i use number of chars or x,y?
-
-*/
+}	

@@ -4,12 +4,10 @@
 #include <fstream>
 
 Map::Map(char * map){
-	// string file_path = "/home/kampe/Desktop/Cpp/Final_Project/";  // the path of my project
-	string file_path = map;  // conctenating map's file name in the path
+	string file_path = map; 
 
 	ifstream read_file; 
 	string line;
-
 
 	read_file.open(file_path);
 	int count = 0;  // counting rows
@@ -20,8 +18,7 @@ Map::Map(char * map){
 			if(count == 0){  // find the size of one line (getting the amount of columns)
 				columns = line.size();
 			}
-			line+= '\n';  // maybe for debbuging reasons, 
-			
+			line += '\n';  // this is needed to print the map in the main easily
 			the_map.push_back(line);
 			count++;
 		}
