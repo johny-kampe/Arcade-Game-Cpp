@@ -13,6 +13,7 @@ class HiScore{
         string file;
     public:
         HiScore(char *);
+        // void operator<< (HiScore &, char, int);
 };
 
 #endif

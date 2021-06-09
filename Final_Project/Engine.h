@@ -18,20 +18,23 @@ class Engine{
         char stone;  // stone's symbol
         vector<int> stones_cords;  // keeping every stone's coordinates
         char parchment;  // parchment's symbol
-        // vector<int> parchment_cords;  // keeping the parchment's coordinates
-        string player_name;
-        int player_score;
-        vector<int> gnome_stepped_on_a_stone;
+        vector<int> parchment_cords;  // keeping the parchment's coordinates
+        char player_name;  // the name of the player
+        int player_score;  // the score of the player
+        vector<int> gnome_stepped_on_a_stone;  // these vectors are needed to check if the monsters are on a stone
         vector<int> traal_stepped_on_a_stone;
+        int gnome_stepped_on_parchment;  // those flags are needed to check if the monsters are on the parchment
+        int traal_stepped_on_parchment;
     public:
         Engine(Map *, Potter *, Gnome *, Traal *);
-        void placeEveryone();
-        bool getNewCoordinates();  // checks if the new coordinates are valid
+        void placeEveryone();  // placing Potter, Traal, Gnome and the stones in the map
+        int getNewCoordinates();  // checks if the new coordinates are valid
         void placeParchment();  // when stones.size() == 0 then we'll call this function to place the parchment
 
-        int getAmountOfStones() const;
-        int getPlayerScore() const;
+        int getAmountOfStones() const;  // getting the amount of stones that are in the map
+        int getPlayerScore() const;  // getter and setter for the score
         void setPlayerScore(int);
+        char getPlayerName() const;
 };
 
 #endif
