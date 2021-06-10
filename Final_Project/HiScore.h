@@ -1,8 +1,9 @@
 #ifndef HiScore_h
 #define HiScore_h
 
-#include "Map.h"
 #include "Potter.h"
+#include "Engine.h"
+#include "Map.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ class HiScore{
         string file;
     public:
         HiScore(char *);
-        // void operator<< (HiScore &, char, int);
+        void operator<<(Engine &);
 };
 
 #endif

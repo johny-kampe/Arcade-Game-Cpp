@@ -19,7 +19,7 @@ class Engine{
         vector<int> stones_cords;  // keeping every stone's coordinates
         char parchment;  // parchment's symbol
         vector<int> parchment_cords;  // keeping the parchment's coordinates
-        char player_name;  // the name of the player
+        char * player_name;  // the name of the player
         int player_score;  // the score of the player
         vector<int> gnome_stepped_on_a_stone;  // these vectors are needed to check if the monsters are on a stone
         vector<int> traal_stepped_on_a_stone;
@@ -34,7 +34,8 @@ class Engine{
         int getAmountOfStones() const;  // getting the amount of stones that are in the map
         int getPlayerScore() const;  // getter and setter for the score
         void setPlayerScore(int);
-        char getPlayerName() const;
+        char * getPlayerName() const;
+        void setPlayerName(const char *);
 };
 
 #endif
