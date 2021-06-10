@@ -12,7 +12,7 @@ Map::Map(char * map){
 
 	read_file.open(file_path);
 	if (read_file.fail()){
-		throw exception();
+		throw "In Map.cpp, error while opening the file.";
 	}else{
 		int count = 0;  // counting rows
 		if(read_file.is_open()){  // check if the file is open

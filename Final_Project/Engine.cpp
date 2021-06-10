@@ -27,7 +27,7 @@ void Engine::placeEveryone(){
 
     vector<string> place_map = map->getMap();
 
-    for(int i = 0; i < 13; i++){  // adding potter, gnome and traal in map, now we have to insert the pergamines
+    for(int i = 0; i < 13; i++){  // adding potter, gnome and traal in map
         do{
             flag = 0; // initialize the flag
             x = rand() % 18 + 1;  // random row
@@ -95,13 +95,13 @@ int Engine::getNewCoordinates(){
         }
     }while(check_map[new_cords[0]][new_cords[1]] == '*'); 
 
-    if(flag == 1){  // if the flag is 1 then return 3 and end the game
+    if(flag == 1){  // if the flag is 1 then return 3 (code for end game) and end the game
         return 3;
     }
 
     move(potter->getX(), potter->getY());
 	if((new_cords[0] == traal->getX() && new_cords[1] == traal->getY()) || (new_cords[0] == gnome->getX() && new_cords[1] == gnome->getY())){
-        return 2;
+        return 2;  // code for game over
     } 
     
     addch (' ');
@@ -125,7 +125,7 @@ int Engine::getNewCoordinates(){
     move(map->getRows()+1, 0);  // move below the map and print the current score
     printw("Score: %d", this->getPlayerScore());
 
-    move(new_cords[0], new_cords[1]);  // move to potter to the new coordinates and print him in the map
+    move(new_cords[0], new_cords[1]);  // move potter to the new coordinates and print him in the map
     attron(COLOR_PAIR(1));
     printw("%c", potter->getSymbol());
     attroff(COLOR_PAIR(1));
@@ -218,7 +218,7 @@ int Engine::getNewCoordinates(){
 
     if(parchment_cords.size() != 0){  // if the parchment is in the map then
         if(new_cords[0] == parchment_cords[0] && new_cords[1] == parchment_cords[1]){  // check if in the new coordinates is the parchment
-            traal_stepped_on_parchment = 1;  // if it is then change gnome's flag 
+            traal_stepped_on_parchment = 1;  // if it is then change traal's flag 
         }
     }
 
@@ -242,13 +242,14 @@ void Engine::placeParchment(){
     do{
         x = rand() % 18 + 1;  // random row
         y = rand() % 58 + 1;  // ramndom column            
-    }while(place_map[x][y] == '*' || (x == traal->getX() && y == traal->getY()) || (x == gnome->getX() && y == gnome->getY()));  // if in the given coordinates is a wall or another symbol produce new coordinates 
+        // if in the given coordinates is a wall or another symbol produce new coordinates
+    }while(place_map[x][y] == '*' || (x == traal->getX() && y == traal->getY()) || (x == gnome->getX() && y == gnome->getY()));   
 
-    parchment_cords.push_back(x);  // insert every taken coordinate in the vector
+    parchment_cords.push_back(x);  // insert the valid coordinates in the vector
     parchment_cords.push_back(y);
 
     move(x, y);
-    attron(COLOR_PAIR(5));
+    attron(COLOR_PAIR(5));  // print the parchment in the map
     printw("%c", parchment);
     attroff(COLOR_PAIR(5));
 
@@ -270,7 +271,7 @@ char * Engine::getPlayerName() const{
     return player_name;
 }
 
-void Engine::setPlayerName(const char * name){ //setter ��� ��� ������ �������
+void Engine::setPlayerName(const char * name){
 	int length = strlen(name);
 	player_name = new char [length];
 	strcpy(player_name,name);

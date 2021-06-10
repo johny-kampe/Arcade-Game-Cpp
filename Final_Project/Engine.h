@@ -32,9 +32,9 @@ class Engine{
         void placeParchment();  // when stones.size() == 0 then we'll call this function to place the parchment
 
         int getAmountOfStones() const;  // getting the amount of stones that are in the map
-        int getPlayerScore() const;  // getter and setter for the score
+        int getPlayerScore() const;  // getter and setter for player's score
         void setPlayerScore(int);
-        char * getPlayerName() const;
+        char * getPlayerName() const;  // getter and setter for player's name
         void setPlayerName(const char *);
 };
 
