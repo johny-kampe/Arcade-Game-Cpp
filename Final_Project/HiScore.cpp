@@ -36,7 +36,7 @@ void HiScore::operator<<(Engine &engine){
 		}
 	}
 
-	ofstream write_to_file("highscore.dat", ios::binary);
+	ofstream write_to_file(file, ios::binary);
     if (write_to_file.fail()){
 		throw "In HiScore.cpp, error while opening the file (operator<<)";
 	}else{
@@ -45,5 +45,11 @@ void HiScore::operator<<(Engine &engine){
 			write_to_file.write((char *) &scores[i], sizeof(scores[i]));        
 		}
 		write_to_file.close();
+
+		cout << "  High Scores" << endl;
+		for (int i = 0; i < 5; i++){
+			cout << names[i] << " " << scores[i] << endl;
+		}
+		
 	}
 }

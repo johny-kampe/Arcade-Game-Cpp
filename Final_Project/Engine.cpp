@@ -15,7 +15,6 @@ Engine::Engine(Map * mapp, Potter * pot, Gnome * gn, Traal * tr): map(mapp), pot
     parchment = '@';
     gnome_stepped_on_parchment = 0;
     traal_stepped_on_parchment = 0;
-    memset(player_name, 0, sizeof(player_name)); 
 }
 
 void Engine::placeEveryone(){

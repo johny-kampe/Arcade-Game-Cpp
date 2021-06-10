@@ -21,14 +21,9 @@ int main(int argc, char ** argv){
 		Gnome gnome(0, 0, 'G', &map);
 		Traal traal(0, 0, 'T', &map);
 		HiScore hiscore(argv[2]);
-
-		vector<string> mapp = map.getMap();
-
 		Engine engine(&map, &potter, &gnome, &traal);
-
-		initscr();
-
-		endwin();
+		
+		vector<string> mapp = map.getMap();
 
 		initscr(); 
 		noecho();  // any other key except Up, Down, Left, Right, Space and Escape have no effect in the game
@@ -87,12 +82,12 @@ int main(int argc, char ** argv){
 			cout <<  "The user quited." << endl;
 		}
 
-		char name[11];
-		cout << "Enter your name: ";
+		char name[11];  // read the name of the player
+		cout <<  endl << "Enter your name: ";
 		cin >> name;																		   
 		engine.setPlayerName(name);
 
-		hiscore<<engine;
+		hiscore<<engine;  // check if he will be place in the high score table
 		
 		return 0;
 

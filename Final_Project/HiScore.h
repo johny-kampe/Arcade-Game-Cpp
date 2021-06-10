@@ -9,7 +9,7 @@ using namespace std;
 
 class HiScore{
     private:
-        char names[5][11];
+        char names[5][10];
         int scores[5];
         string file;
     public:
