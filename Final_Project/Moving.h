@@ -15,6 +15,7 @@ class Moving{
         Map * moving_map;
     public:
         Moving(int, int, char, Map *);
+        virtual ~Moving();
 
         int getX() const;
         int getY() const;

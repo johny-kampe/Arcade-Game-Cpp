@@ -4,6 +4,10 @@ Moving::Moving(int x_cord, int y_cord, char any_symbol, Map * map): x(x_cord), y
     
 }
 
+Moving::~Moving(){
+
+}
+
 int Moving::getX() const{
     return x;
 }

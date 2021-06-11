@@ -11,17 +11,19 @@
 using namespace std;
 
 int main(int argc, char ** argv){
+	char name[11];
+
+	Map map(argv[1]);
+	Potter potter(0, 0, 'P', &map);
+	Gnome gnome(0, 0, 'G', &map);
+	Traal traal(0, 0, 'T', &map);
+	HiScore hiscore(argv[2]);
+	Engine engine(&map, &potter, &gnome, &traal);
+
 	try{
 		if(argc < 3){  // if the user didn't insert map and hiscore files before running then throw exception
 			throw "In Main.cpp, you need to have the map and the hiscore files when you are running the game";
 		}
-
-		Map map(argv[1]);
-		Potter potter(0, 0, 'P', &map);
-		Gnome gnome(0, 0, 'G', &map);
-		Traal traal(0, 0, 'T', &map);
-		HiScore hiscore(argv[2]);
-		Engine engine(&map, &potter, &gnome, &traal);
 		
 		vector<string> mapp = map.getMap();
 
@@ -81,17 +83,24 @@ int main(int argc, char ** argv){
 		} else if(continue_game == 3){
 			cout <<  "The user quited." << endl;
 		}
-
-		char name[11];  // read the name of the player
-		cout <<  endl << "Enter your name: ";
-		cin >> name;																		   
-		engine.setPlayerName(name);
-
-		hiscore<<engine;  // check if he will be place in the high score table
-		
-		return 0;
-
+		try{
+		    // read the name of the player
+			cout <<  endl << "Enter your name: ";
+			cin >> name;		
+			if(strlen(name) > 10){
+				throw 1;
+			}																   		
+		} catch (int err){  // player's name exception
+			cout << "The name must be 10 characters maximum, try again: ";
+			do{
+				cin >> name;
+			}while (strlen(name) > 9);
+		}
 	} catch (const char * exc){  // Map exception
 		cerr << exc << endl;
 	}
+	engine.setPlayerName(name);
+	hiscore<<engine;  // check if he will be place in the high score table
+
+	return 0;
 }	

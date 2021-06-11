@@ -9,7 +9,6 @@ using namespace std;
 class Traal: public Moving{
     public:
         Traal(int, int, char, Map *);
-        void move();
         vector<int> moveCharacter();
 };
 
