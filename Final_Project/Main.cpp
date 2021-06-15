@@ -7,11 +7,15 @@
 #include <panel.h>
 #include <ncurses.h>
 #include <string.h>
+#include <fstream>
+#include <unistd.h>
+#include <iomanip>
 
 using namespace std;
 
 int main(int argc, char ** argv){
-	char name[11];
+	char name[10];
+	char word;
 
 	Map map(argv[1]);
 	Potter potter(0, 0, 'P', &map);
@@ -38,6 +42,8 @@ int main(int argc, char ** argv){
 		init_pair(3, COLOR_BLACK, COLOR_YELLOW);
 		init_pair(4, COLOR_MAGENTA, COLOR_MAGENTA);
 		init_pair(5, COLOR_BLACK, COLOR_WHITE);
+		init_pair(6, COLOR_GREEN, COLOR_GREEN);
+		init_pair(7, COLOR_RED, COLOR_RED);
 
 		if (has_colors() == false){
 			endwin();
@@ -74,28 +80,74 @@ int main(int argc, char ** argv){
 				flag_parchment++;
 			}
 		} while (continue_game != 1 && continue_game != 2 && continue_game != 3);  // if continue_game == 1 then the player won
-		endwin();																   // if continue_game == 2 then the player lost
-																				   // if continue_game == 3 then the player quitted
-		if(continue_game == 1){
-			cout << "YOU WON" << endl;
-		} else if(continue_game == 2){
-			cout << "GAME OVER" << endl;
+		clear();																   // if continue_game == 2 then the player lost
+		endwin();																   // if continue_game == 3 then the player quitted
+																				   
+		if(continue_game == 1){  // printing the animation "YOU WON" 
+			ifstream win_file;
+			win_file.open("you_won.txt");
+
+			if(win_file.fail()){
+				cout << "Win error!";
+				exit(0);
+			}
+
+			initscr();
+			clear();
+			win_file >> noskipws;
+			while(win_file){
+			    win_file >> word;
+			    if(word == '|' || word == '_' || word == '/' || word == '=' || word == '\\'){
+			        attron(COLOR_PAIR(6));
+			        printw("%c", word);
+			        attroff(COLOR_PAIR(6));
+			    } else {
+			        printw("%c", word);
+			    }
+			}
+			win_file.close();
+
+			move(12, 0);
+			printw("Press any key to continue...");
+			ch = getch();
+
+			endwin();
+		} else if(continue_game == 2){  // printing the animation "GAME OVER"
+			ifstream game_over_file;
+			game_over_file.open("game_over.txt");
+
+			if(game_over_file.fail()){
+				cout << "Game over error!";
+				exit(0);
+			}
+
+			initscr();
+			start_color();
+			game_over_file >> noskipws;
+			while(game_over_file){
+				game_over_file >> word;
+				if(word == '|' || word == '_' || word == '/' || word == '=' || word == '\\' || word == '-'){
+					attron(COLOR_PAIR(7));
+					printw("%c", word);
+					attroff(COLOR_PAIR(7));
+				} else {
+					printw("%c", word);
+				}
+			}
+			game_over_file.close();
+
+			move(12, 0);
+			printw("Press any key to continue...");
+			ch = getch();
+
+			endwin();
 		} else if(continue_game == 3){
 			cout <<  "The user quited." << endl;
 		}
-		try{
-		    // read the name of the player
-			cout <<  endl << "Enter your name: ";
-			cin >> name;		
-			if(strlen(name) > 10){
-				throw 1;
-			}																   		
-		} catch (int err){  // player's name exception
-			cout << "The name must be 10 characters maximum, try again: ";
-			do{
-				cin >> name;
-			}while (strlen(name) > 9);
-		}
+
+	    // read the name of the player
+		cout <<  endl << "Enter your name: ";
+		cin >> setw(10) >> name;																		   		
 	} catch (const char * exc){  // Map exception
 		cerr << exc << endl;
 	}

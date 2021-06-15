@@ -135,7 +135,7 @@ int Engine::getNewCoordinates(){
     // ******************************** Place Gnome ********************************
     do{  // check if in the new coordinates is a wall
         new_cords = gnome->moveCharacter();
-    }while(check_map[new_cords[0]][new_cords[1]] == '*');
+    }while(check_map[new_cords[0]][new_cords[1]] == '*' || (gnome->getX() == new_cords[0] && gnome->getY() == new_cords[1]));
 
     move(gnome->getX(), gnome->getY());
 
@@ -183,7 +183,7 @@ int Engine::getNewCoordinates(){
     // ******************************** Place Traal ********************************
     do{  // check if in the new coordinates is a wall
         new_cords = traal->moveCharacter();
-    }while(check_map[new_cords[0]][new_cords[1]] == '*');
+    }while(check_map[new_cords[0]][new_cords[1]] == '*' || (traal->getX() == new_cords[0] && traal->getY() == new_cords[1]));
 
     move(traal->getX(), traal->getY());
 
