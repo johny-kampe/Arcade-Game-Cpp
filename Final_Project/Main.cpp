@@ -16,6 +16,8 @@ using namespace std;
 int main(int argc, char ** argv){
 	char name[10];
 	char word;
+	int ch;
+
 
 	Map map(argv[1]);
 	Potter potter(0, 0, 'P', &map);
@@ -44,11 +46,38 @@ int main(int argc, char ** argv){
 		init_pair(5, COLOR_BLACK, COLOR_WHITE);
 		init_pair(6, COLOR_GREEN, COLOR_GREEN);
 		init_pair(7, COLOR_RED, COLOR_RED);
+		init_pair(8, COLOR_CYAN, COLOR_CYAN);
 
 		if (has_colors() == false){
 			endwin();
 			throw "Terminal doen't support colors";
 		}
+
+		ifstream start_file;  // printing the name of the game
+			start_file.open("game_name.txt");
+
+			if(start_file.fail()){
+				cout << "Win error!";
+				exit(0);
+			}
+
+			start_file >> noskipws;
+			while(start_file){
+			    start_file >> word;
+			    if(word == '|' || word == '_' || word == '/' || word == '=' || word == '\\'){
+			        attron(COLOR_PAIR(8));
+			        printw("%c", word);
+			        attroff(COLOR_PAIR(8));
+			    } else {
+			        printw("%c", word);
+			    }
+			}
+			start_file.close();
+
+			move(12, 0);
+			printw("Press any key to start the game...");
+			ch = getch();
+			clear();		
 
 		for(int i = 0; i < map.getRows(); i++){  // here we print the wall and we change the color to brown
 			for (int j = 0; j < map.getColumns(); j++){
@@ -65,7 +94,6 @@ int main(int argc, char ** argv){
 		engine.placeEveryone();
 		refresh();
 
-		int ch;
 		int amount_of_stones;  // we need variable this to check the amount of stones 
 		int flag_parchment = 0;  // this flag is needed so the following if will never run again
 		int continue_game = 0; // we need this variable to check if the player won, lost or quitted
